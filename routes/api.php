@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\AgenteEmpresaController;
 use App\Http\Controllers\Api\AgenteServicioController;
 use App\Http\Controllers\Api\AgenteComprobanteController;
+use App\Http\Controllers\Api\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,16 @@ Route::prefix('auth')->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::resource('posts', PostController::class);
         Route::get('me', [AuthController::class, 'me']);
+      
+    });
+});
+
+Route::middleware('auth:api')->prefix('mantenimiento')->group(function () {
+
+    Route::prefix('usuario')->group(function () {
+        Route::post('/registrar-usuario', [UserController::class,'saveUsuario']);
+        Route::post('/obtener-usuarios', [UserController::class, 'getUsuarios']);
+        Route::post('/eliminar-usuario', [UserController::class,'deleteUsuario']);
     });
 });
 
